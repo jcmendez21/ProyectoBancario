@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probador API - Prueba Técnica</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 50px auto; 
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; text-align: center; }
+        h2 { color: #666; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .btn:hover { background: #0056b3; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #1e7e34; }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+        }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Probador API - Prueba Técnica</h1>
+        
+        <h2>📝 Crear Nuevo Registro</h2>
+        <div class="form-group">
+            <label>Título:</label>
+            <input type="text" id="title" value="Mi primer registro de prueba">
+        </div>
+        <div class="form-group">
+            <label>Contenido:</label>
+            <textarea id="content">Este es el contenido del registro de prueba. Aquí iría información más detallada sobre el tema.</textarea>
+        </div>
+        <div class="form-group">
+            <label>Autor:</label>
+            <input type="text" id="author" value="Juan Pérez">
+        </div>
+        <div class="form-group">
+            <label>Categoría:</label>
+            <input type="text" id="category" value="Test">
+        </div>
+        <div class="form-group">
+            <label>ID Externo:</label>
+            <input type="text" id="externalId" value="test-001">
+        </div>
+        <div class="form-group">
+            <label>URL Fuente:</label>
+            <input type="text" id="sourceUrl" value="https://example.com/test">
+        </div>
+        
+        <button class="btn" onclick="crearRegistro()">📝 Crear Registro</button>
+        
+        <h2>📋 Acciones Rápidas</h2>
+        <button class="btn btn-success" onclick="listarRegistros()">📋 Listar Todos los Registros</button>
+        <button class="btn btn-success" onclick="buscarPorPalabra()">🔍 Buscar "primer"</button>
+        <button class="btn btn-success" onclick="crearRegistrosEjemplo()">🎲 Crear 3 Registros de Ejemplo</button>
+        
+        <div id="resultado" class="result info">
+            Listo para probar la API...
+            
+            Base URL: http://localhost:8080/api/data
+            
+            ✅ La aplicación Spring Boot está corriendo
+            ✅ La base de datos H2 está conectada
+            ✅ La tabla DATA_RECORDS existe
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api/data';
+        
+        function mostrarResultado(mensaje, tipo = 'info') {
+            const resultado = document.getElementById('resultado');
+            resultado.textContent = mensaje;
+            resultado.className = `result ${tipo}`;
+        }
+        
+        function crearRegistro() {
+            const data = {
+                title: document.getElementById('title').value,
+                content: document.getElementById('content').value,
+                authorName: document.getElementById('author').value,
+                category: document.getElementById('category').value,
+                externalId: document.getElementById('externalId').value,
+                sourceUrl: document.getElementById('sourceUrl').value
+            };
+            
+            fetch(API_BASE, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                mostrarResultado('✅ Registro creado exitosamente!\n\n' + JSON.stringify(result, null, 2), 'success');
+                // Limpiar el ID externo para el próximo registro
+                document.getElementById('externalId').value = 'test-' + String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+            })
+            .catch(error => {
+                mostrarResultado('❌ Error al crear registro:\n\n' + error.message, 'error');
+            });
+        }
+        
+        function listarRegistros() {
+            fetch(API_BASE)
+            .then(response => response.json())
+            .then(result => {
+                const count = result.totalElements;
+                mostrarResultado(`📋 Se encontraron ${count} registros:\n\n` + JSON.stringify(result, null, 2), 'info');
+            })
+            .catch(error => {
+                mostrarResultado('❌ Error al listar registros:\n\n' + error.message, 'error');
+            });
+        }
+        
+        function buscarPorPalabra() {
+            fetch(API_BASE + '/search?keyword=primer')
+            .then(response => response.json())
+            .then(result => {
+                const count = result.totalElements;
+                mostrarResultado(`🔍 Búsqueda "primer" - ${count} resultados:\n\n` + JSON.stringify(result, null, 2), 'info');
+            })
+            .catch(error => {
+                mostrarResultado('❌ Error en búsqueda:\n\n' + error.message, 'error');
+            });
+        }
+        
+        function crearRegistrosEjemplo() {
+            const ejemplos = [
+                {
+                    title: "Noticia de Tecnología",
+                    content: "Nueva versión de Spring Boot lanzada con mejoras de seguridad y rendimiento.",
+                    authorName: "María García",
+                    category: "Tecnología",
+                    externalId: "tech-001",
+                    sourceUrl: "https://spring.io/news"
+                },
+                {
+                    title: "Tutorial de Java",
+                    content: "Aprende los conceptos básicos de programación en Java para principiantes.",
+                    authorName: "Carlos López",
+                    category: "Educación",
+                    externalId: "edu-001",
+                    sourceUrl: "https://docs.oracle.com/javase"
+                },
+                {
+                    title: "API REST Best Practices",
+                    content: "Mejores prácticas para diseñar APIs REST escalables y mantenibles.",
+                    authorName: "Ana Rodríguez",
+                    category: "Desarrollo",
+                    externalId: "dev-001",
+                    sourceUrl: "https://restfulapi.net"
+                }
+            ];
+            
+            let creados = 0;
+            ejemplos.forEach((ejemplo, index) => {
+                fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(ejemplo)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    creados++;
+                    if (creados === ejemplos.length) {
+                        mostrarResultado('✅ ¡3 registros de ejemplo creados exitosamente!\n\nAhora puedes:\n- Listar todos los registros\n- Buscar por palabras clave\n- Ver los datos en H2 Console', 'success');
+                    }
+                })
+                .catch(error => {
+                    mostrarResultado('❌ Error al crear registros de ejemplo:\n\n' + error.message, 'error');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
