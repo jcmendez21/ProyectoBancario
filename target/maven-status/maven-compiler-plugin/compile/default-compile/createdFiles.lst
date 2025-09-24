@@ -1,0 +1,4 @@
+com\pruebatecnica\PruebaTecnicaApplication.class
+com\pruebatecnica\api\controller\DataController.class
+com\pruebatecnica\entity\DataRecord.class
+com\pruebatecnica\repository\DataRecordRepository.class

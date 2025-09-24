@@ -65,4 +65,19 @@ public class DataController {
         DataRecord savedRecord = dataRecordRepository.save(record);
         return ResponseEntity.ok(savedRecord);
     }
+
+    // Endpoint de prueba para insertar datos rápido
+    @GetMapping("/test")
+    public ResponseEntity<String> createTestRecordGet() {
+        DataRecord record = new DataRecord();
+        record.setTitle("Registro de prueba GET");
+        record.setContent("Contenido de prueba desde navegador");
+        record.setAuthorName("Sistema Test");
+        record.setCategory("Test");
+        record.setExternalId("test-" + System.currentTimeMillis());
+        record.setSourceUrl("http://test.com");
+
+        DataRecord saved = dataRecordRepository.save(record);
+        return ResponseEntity.ok("✅ Registro creado con ID: " + saved.getId());
+    }
 }
