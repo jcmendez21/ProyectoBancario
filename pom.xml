@@ -81,6 +81,13 @@
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
         </dependency>
+        
+        <!-- jPOS para ISO 8583 -->
+        <dependency>
+            <groupId>org.jpos</groupId>
+            <artifactId>jpos</artifactId>
+            <version>2.1.9</version>
+        </dependency>
     </dependencies>
     
     <build>

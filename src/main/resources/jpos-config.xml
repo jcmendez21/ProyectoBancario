@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<isopackager>
+    <isofield id="0" length="4" name="MESSAGE TYPE INDICATOR" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="1" length="16" name="BIT MAP" class="org.jpos.iso.IFB_BITMAP"/>
+    <isofield id="2" length="19" name="PAN - PRIMARY ACCOUNT NUMBER" class="org.jpos.iso.IFB_LLNUM"/>
+    <isofield id="3" length="6" name="PROCESSING CODE" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="4" length="12" name="AMOUNT, TRANSACTION" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="7" length="10" name="TRANSMISSION DATE & TIME" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="11" length="6" name="SYSTEM TRACE AUDIT NUMBER" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="12" length="6" name="TIME, LOCAL TRANSACTION (HHMMSS)" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="13" length="4" name="DATE, LOCAL TRANSACTION (MMDD)" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="18" length="4" name="MERCHANT TYPE" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="22" length="3" name="POS ENTRY MODE" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="25" length="2" name="POS CONDITION CODE" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="38" length="6" name="AUTHORIZATION IDENTIFICATION RESPONSE" class="org.jpos.iso.IF_CHAR"/>
+    <isofield id="39" length="2" name="RESPONSE CODE" class="org.jpos.iso.IF_CHAR"/>
+    <isofield id="41" length="8" name="CARD ACCEPTOR TERMINAL IDENTIFICATION" class="org.jpos.iso.IF_CHAR"/>
+    <isofield id="42" length="15" name="CARD ACCEPTOR IDENTIFICATION CODE" class="org.jpos.iso.IF_CHAR"/>
+    <isofield id="49" length="3" name="CURRENCY CODE, TRANSACTION" class="org.jpos.iso.IF_CHAR"/>
+</isopackager>
+<!-- jPOS para ISO 8583 -->
+<dependency>
+    <groupId>org.jpos</groupId>
+    <artifactId>jpos</artifactId>
+    <version>2.1.9</version>
+</dependency>
